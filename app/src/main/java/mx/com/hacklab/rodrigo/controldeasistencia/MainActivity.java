@@ -23,6 +23,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,7 +59,11 @@ public class MainActivity extends ActionBarActivity {
             params.add(new BasicNameValuePair("Email",Email));
             String url="http://controlasistencia-hacklabmx.rhcloud.com/AppScript/Acreditar.php";
             Toast.makeText(getApplicationContext(), Email, Toast.LENGTH_LONG).show();
-            consultaBdx(params, url);
+            try {
+                consultaBdx(params, url);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
 
         }else {
             Toast.makeText(getApplicationContext(), "No se logro escanear el Código, por favor intenta de nuevo", Toast.LENGTH_LONG).show();
@@ -67,7 +72,7 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
-    private void consultaBdx(List<NameValuePair> params, String url) {
+    private void consultaBdx(List<NameValuePair> params, String url) throws ParseException {
         try{
             HttpPost httppost = new HttpPost(url);
             httppost.setEntity(new UrlEncodedFormEntity(params));
